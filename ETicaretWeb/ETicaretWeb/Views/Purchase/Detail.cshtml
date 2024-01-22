@@ -1,0 +1,42 @@
+﻿@model List<ETicaretWeb.PurchaseProduct>
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Product Detail</h2>
+<main>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Purchase id</th>
+                    <th scope="col">Picture</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Count</th>
+                    <th scope="col">Product Amount</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.PurchaseId</td>
+                        <td>
+                            @if (item.Product.Picture != null)
+                            {
+                                <img src="~/Pictures/@item.Product.Picture" style="height: 150px;width: 150px;" />
+                            }
+                                            </td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Count</td>
+                        <td>@item.ProductAmount</td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+</main>

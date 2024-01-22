@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Category</h2>
+<main >
+    <div id="CategoryDiv">
+        @{
+            Html.RenderAction("CategoryPArtial", "Category");
+        }
+    </div>
+   
+    <div class="row">
+        <form id="myForm" action="@Url.Action("Submit","Category")">
+            <input name="myId" id="selectedId" value="0" hidden="hidden" />
+            <input name="process" id="myProcess" value="insert" hidden="hidden" />
+            <div class="mb-3">
+                <label for="category" id="category" class="form-label">Category</label>
+                <input type="text" required class="form-control" name="category" id="categoryname" aria-describedby="emailHelp">
+            </div>
+
+            <button type="button" class="btn btn-primary" id="formButton" onclick="SubmitClicked(this)">Submit</button>
+        </form>
+    </div>
+
+</main>
+@section scripts{
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script>
+        function UpdateClicked(button) {
+            console.log($(button).data('id'));
+            $('#categoryname').val($(button).data('name'));
+            $('#selectedId').val($(button).data('id'));
+            $('#myProcess').val("update");
+
+            
+
+        }
+        function DeleteClicked(button) {
+
+            $('#selectedId').val($(button).data('id'));
+            $('#myProcess').val("delete");
+           
+
+            var model = {
+                myId: $('#selectedId').val(),
+                process: "delete"
+            };
+
+            ajaxSendDataWithLoadingGetData(model, '/Category/Submit', $('body'), function (response) {
+                if (response.isSuccess) {
+                    BasariliMesajVer("BAŞARILI", response.Message, function () {
+                        ajaxPartialView(null, '/Category/CategoryPArtial', $('body'), $('#CategoryDiv'), null);
+                    });
+                }
+                else {
+                    HataMesajVer("Başarısız", response.Message, function () {
+
+                    });
+                }
+            });
+
+        }
+
+        function SubmitClicked() {
+           
+            var model = null;
+            if ($('#myProcess').val() == "update") {
+                 model = {
+                     category: $('#categoryname').val(),
+                     myId: $('#selectedId').val(),
+                    process: "update"
+                };
+            }
+            else {
+                 model = {
+                    category: $('#categoryname').val(),
+                    myId: 0,
+                    process: "insert"
+                };
+            }
+            
+
+            ajaxSendDataWithLoadingGetData(model, '/Category/Submit', $('body'), function (response) {
+                if (response.isSuccess) {
+                    BasariliMesajVer("BAŞARILI", response.Message, function () {
+                        if ($('#myProcess').val() == "update") {
+                            $('#myProcess').val("insert")
+                        }
+                        $('#categoryname').val("")
+                        ajaxPartialView(null, '/Category/CategoryPArtial', $('body'), $('#CategoryDiv'), null);
+                    });
+                }
+            });
+        }
+
+    </script>
+}

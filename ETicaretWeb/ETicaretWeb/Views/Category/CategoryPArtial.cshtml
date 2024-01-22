@@ -1,0 +1,27 @@
+﻿@model List<ETicaretWeb.Category>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Name</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-id="@item.Id" onclick="DeleteClicked(this)">Delete</button>
+                        <button type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name " onclick="UpdateClicked(this)">Update</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+

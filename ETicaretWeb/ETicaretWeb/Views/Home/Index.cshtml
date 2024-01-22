@@ -1,0 +1,66 @@
+﻿@model List<ETicaretWeb.Product>
+@{
+    ViewBag.Title = "Home Page";
+}
+@using ETicaretWeb.Helpers
+<h2>Products</h2>
+<main>
+   
+    <div>
+        <form id="myForm" action="@Url.Action("AddToCart","Home")">
+            <input name="productId" id="selectedProductId" value="0" hidden="hidden" />
+            <input name="userId" id="selectedUserId" value="0" hidden="hidden" />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Picture</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Cost</th>
+                        <th scope="col">Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <th>
+                                @if (item.Picture != null)
+                                {
+                                    <img src="~/Pictures/@item.Picture" style="height: 150px;width: 150px;" />
+                                }
+
+                            </th>
+                            <td>@item.Name</td>
+                            <td>@item.Cost</td>
+                            <td>@item.Category.Name</td>
+                            <td>
+
+                                <button type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name" data-cost="@item.Cost " data-categoryid="@item.CategoryId" onclick="AddToCart(this)">Add to cart</button>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+</main>
+@section scripts{
+    <script>
+        function AddToCart(button) {
+            $('#selectedProductId').val($(button).data('id'));
+            var model = {
+                productId: $(button).data('id')
+            };
+            ajaxSendDataWithLoadingGetData(model, '/Home/AddToCart', $('body'), function (response) {
+                if (response.isSuccess) {
+                    BasariliMesajVer("BAŞARILI", response.Message);
+                }
+            });
+            
+        }
+    </script>
+}

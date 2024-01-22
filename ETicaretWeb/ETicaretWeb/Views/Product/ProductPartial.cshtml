@@ -1,0 +1,40 @@
+﻿@model List<ETicaretWeb.Product>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Picture</th>
+                <th scope="col">Product</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <th>
+                        @if (item.Picture != null)
+                        {
+                            <img src="~/Pictures/@item.Picture" style="height: 150px;width: 150px;" />
+                        }
+
+                    </th>
+                    <td>@item.Name</td>
+                    <td>@(item.Cost.ToString("C2"))</td>
+                    <td>@item.Category.Name</td>
+                    <td>
+                        <input name="myId" id="selectedId" value="0" hidden="hidden" />
+                        <button type="button" class="btn btn-danger" id="selectedId" data-id="@item.Id" onclick="DeleteClicked(this)">Delete</button>
+
+                        <a href="@Url.Action("ProductCrud", "Product", new {id=item.Id})" class="btn btn-primary">Update</a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>

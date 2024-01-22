@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@using ETicaretWeb.Helpers
+<h2>Products</h2>
+
+<main>
+    <div id="ProductDiv">
+        @{
+            Html.RenderAction("ProductPartial", "Product");
+        }
+    </div>
+
+    <a href="@Url.Action("ProductCrud","Product")" class="btn btn-primary">Add new Product </a>
+
+
+
+
+</main>
+@section scripts{
+    <script>
+        function DeleteClicked(button) {
+            $('#selectedId').val($(button).data('id'));
+          
+            var model = {
+                myId: $(button).data('id'),
+            };
+
+            ajaxSendDataWithLoadingGetData(model, '/Product/DeleteProduct', $('body'), function (response) {
+                if (response.isSuccess) {
+                    BasariliMesajVer("BAŞARILI", response.Message, function () {
+                        ajaxPartialView(null, '/Product/ProductPartial', $('body'), $('#ProductDiv'), null);
+                    });
+                }
+                else {
+                    HataMesajVer("Başarısız", response.Message, function () {
+
+                    });
+                }
+            });
+        }
+    </script>
+    }

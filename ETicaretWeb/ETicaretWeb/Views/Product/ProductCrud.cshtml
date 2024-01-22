@@ -1,0 +1,47 @@
+﻿@model Product
+@using ETicaretWeb.Helpers
+@{
+    ViewBag.Title = "ProductCrud";
+}
+
+<h2>ProductCrud</h2>
+<main>
+    <div class="row">
+        <form id="myForm" action="@Url.Action("Submit","Product")" method="post" enctype="multipart/form-data">
+            <input name="myId" id="selectedId" value="@Model.Id" hidden="hidden" />
+            <input name="process" id="myProcess" value="@(Model.Id == 0 ? "insert": "update")" hidden="hidden" />
+            <div class="mb-3">
+                <label for="product" id="product" class="form-label">Product name</label>
+                <input type="text" required class="form-control" name="product" id="productname" aria-describedby="emailHelp" value="@Model.Name">
+            </div>
+            <div class="mb-3">
+                <label for="Cost" id="Cost" class="form-label">Cost</label>
+                <input type="text" required class="form-control money" name="cost" id="costammount" aria-describedby="emailHelp" value="@(Model.Cost==0 ? "" : Model.Cost.ToString())">
+            </div>
+
+            <div>
+                <label for="category" id="category" class="form-label">Category</label>
+                <select class="form-select" aria-label="Default select example" name="categoryId" id="categoryID">
+                    @foreach (var item in Html.GetAllCategories())
+                    {
+                        <option value="@item.Id" @(item.Id == Model.CategoryId ? "selected" : "")>@item.Name</option>
+                    }
+                </select>
+
+            </div>
+            <input type="file" name="yuklenecekDosya" />
+            <img src="~/Pictures/@Model.Picture" style="height: 150px;width: 150px;" />
+            <button type="submit" class="btn btn-primary" id="formButton">Submit</button>
+        </form>
+    </div>
+</main>
+@section scripts{
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
+    <script>
+        $('.money').mask("#,##0.00", { reverse: true });
+    
+      
+    </script>
+}

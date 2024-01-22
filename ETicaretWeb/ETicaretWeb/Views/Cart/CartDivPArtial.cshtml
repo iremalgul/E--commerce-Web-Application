@@ -1,0 +1,56 @@
+﻿
+@model List<ETicaretWeb.Cart>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Picture</th>
+                <th scope="col">Product</th>
+                <th scope="col">Count</th>
+                <th scope="col">Cost</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{decimal totalCost = 0;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <th>
+                        @if (item.Product.Picture != null)
+                        {
+                            <img src="~/Pictures/@item.Product.Picture" style="height: 150px;width: 150px;" />
+                        }
+
+                    <td>@item.Product.Name</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-id="@item.Id" onclick="DecreaseCount(this)">-</button>
+                        @item.Count
+
+                        <button type="button" class="btn btn-success" data-id="@item.Id" onclick="IncreaseCount(this)">+</button>
+                    </td>
+                    <td>@item.Cost</td>
+
+                    <td>
+                        <button type="button" class="btn btn-danger" data-id="@item.Id" onclick="RemoveFromCart(this)">Remove From Cart</button>
+
+
+                    </td>
+
+                </tr>
+                totalCost = totalCost + item.Cost;
+
+            }
+
+        </tbody>
+    </table>
+</div>
+<label for="product" id="product" class="form-label">Total Cost : @totalCost</label>
+<br />
+@if (Model.Count > 0)
+{
+    <a href=@Url.Action("Buy","Cart") class="btn btn-primary">Buy</a>
+}
+

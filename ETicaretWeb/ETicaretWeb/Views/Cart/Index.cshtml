@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Cart</h2>
+<main id="cartDiv">
+    @{
+        Html.RenderAction("CartDivPArtial", "Cart");
+    }
+</main>
+@section scripts{
+    <script>
+        function RemoveFromCart(button) {
+            $('#selectedCartId').val($(button).data('id'));
+            $('#CartProcess').val("delete");
+
+            var model = {
+                cartId: $(button).data('id'),
+                process: "delete"
+            };
+
+            ajaxSendDataWithLoadingGetData(model, '/Cart/CartActions', $('body'), function (response) {
+                if (response.isSuccess) {
+                    BasariliMesajVer("BAŞARILI", response.Message, function () {
+                        ajaxPartialView(null, '/Cart/CartDivPArtial', $('body'), $('#cartDiv'), null);
+                    });
+                }
+            });
+        }
+        function IncreaseCount(button) {
+      
+  
+            var model = {
+                cartId: $(button).data('id'),
+                process: "increase"
+            };
+
+            ajaxSendDataWithLoadingGetData(model, '/Cart/CartActions', $('body'), function (response) {
+                if (response.isSuccess) {
+                    BasariliMesajVer("BAŞARILI", response.Message, function () {
+                        ajaxPartialView(null, '/Cart/CartDivPArtial', $('body'), $('#cartDiv'), null);
+                    });
+                }
+            });
+        }
+        function DecreaseCount(button) {
+           
+
+            var model = {
+                cartId: $(button).data('id'),
+                process: "decrease"
+            };
+
+            ajaxSendDataWithLoadingGetData(model, '/Cart/CartActions', $('body'), function (response) {
+                if (response.isSuccess) {
+                    BasariliMesajVer("BAŞARILI", response.Message, function () {
+                        ajaxPartialView(null, '/Cart/CartDivPArtial', $('body'), $('#cartDiv'), null);
+                    });
+                }
+            });
+
+        }
+    </script>
+}

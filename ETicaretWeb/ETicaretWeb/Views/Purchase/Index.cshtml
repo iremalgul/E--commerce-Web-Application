@@ -1,0 +1,34 @@
+﻿@model List<ETicaretWeb.Purchase>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Purchases</h2>
+<main>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Purchase id</th>
+                    <th scope="col">Purchase Date</th>
+                    <th scope="col">Total Amount</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.PurchaseDate</td>
+                        <td>@(item.TotalAmount)</td>
+                        <td> <a href=@Url.Action("Detail","Purchase",new {id=item.Id})>See details</a> </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+</main>
+
